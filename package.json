@@ -21,6 +21,8 @@
   },
   "homepage": "https://github.com/alwynjose/feed-back-collection-backend#readme",
   "dependencies": {
-    "express": "^4.17.2"
+    "express": "^4.17.2",
+    "passport": "^0.5.2",
+    "passport-google-oauth20": "^2.0.0"
   }
 }
