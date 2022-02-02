@@ -1,12 +1,16 @@
 const express = require('express');
-require('./services/passport'); 
-// the services/passport.js is not returning anything so we don't have to assign it to anything like const passport = require(...)
+const mongoose = require('mongoose');
+const keys = require('./config/keys');
+require('./models/user');
+require('./services/passport'); // the services/passport.js is not returning anything so we don't have to assign it to anything like const passport = require(...)
 
-const authRoutes = require('./routes/authRoutes');
+// const authRoutes = require('./routes/authRoutes'); // refactored id1
 
+mongoose.connect(keys.mongoURI);
 const app = express();
 
-authRoutes(app);
+// authRoutes(app); // refactored id1
+require('./routes/authRoutes')(app); // refactored id1
 /**
  * @description new GoogleStrategy creates a new instance of the google passport strategy
  */
