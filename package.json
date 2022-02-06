@@ -22,7 +22,9 @@
   },
   "homepage": "https://github.com/alwynjose/feed-back-collection-backend#readme",
   "dependencies": {
+    "cookie-session": "^2.0.0",
     "express": "^4.17.2",
+    "mongoose": "^6.1.8",
     "nodemon": "^2.0.15",
     "passport": "^0.5.2",
     "passport-google-oauth20": "^2.0.0"
