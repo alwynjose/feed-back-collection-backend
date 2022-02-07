@@ -30,6 +30,9 @@ require('./routes/authRoutes')(app); // refactored id1
  * @description new GoogleStrategy creates a new instance of the google passport strategy
  */
 
+ app.get('/', (req, res) => {  // route handler watching for a very specific http method
+    res.send({hi: 'there'});
+});
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);
 
