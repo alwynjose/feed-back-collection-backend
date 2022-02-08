@@ -19,7 +19,9 @@ passport.deserializeUser((id, done) => { // this will take the id and turn it in
 passport.use(new GoogleStrategy({
     clientID: keys.googleClientID,
     clientSecret: keys.googleClientSecret,
-    callbackURL: '/auth/google/callback'
+    callbackURL: '/auth/google/callback',
+    proxy: true // allow if request goes through any proxy (to handle heroku proxy server, else google call back will have no http's' in the url and will break)
+                // handle Error 400: redirect_uri_mismatch
 }, 
 (accessToken, refreshToken, profile, done) => {
         // console.log(accessToken);
