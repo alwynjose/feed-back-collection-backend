@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 const keys = require('./config/keys');
-require('./models/user');
+require('./models/User');
 require('./services/passport'); // the services/passport.js is not returning anything so we don't have to assign it to anything like const passport = require(...)
 
 // const authRoutes = require('./routes/authRoutes'); // refactored id1
