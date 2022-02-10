@@ -17,3 +17,4 @@ app.get('/api/logout', (req, res) => {
         res.send(req.user);
     });
 }
+
