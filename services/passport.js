@@ -16,33 +16,31 @@ passport.deserializeUser((id, done) => { // this will take the id and turn it in
         })
 });
 
-passport.use(new GoogleStrategy({
-    clientID: keys.googleClientID,
-    clientSecret: keys.googleClientSecret,
-    callbackURL: '/auth/google/callback',
-    proxy: true // allow if request goes through any proxy (to handle heroku proxy server, else google call back will have no http's' in the url and will break)
-                // handle Error 400: redirect_uri_mismatch
-}, 
-(accessToken, refreshToken, profile, done) => {
+    passport.use(new GoogleStrategy({
+        clientID: keys.googleClientID,
+        clientSecret: keys.googleClientSecret,
+        callbackURL: '/auth/google/callback',
+        proxy: true // allow if request goes through any proxy (to handle heroku proxy server, else google call back will have no http's' in the url and will break)
+                    // handle Error 400: redirect_uri_mismatch
+    }, 
+    async (accessToken, refreshToken, profile, done) => {
         // console.log(accessToken);
         // console.log(refreshToken);
         // console.log(profile);
-        User.findOne({ googleId: profile.id })
-        .then((existingUser) => {
-            if(existingUser) {
-                // we have a record of the same profile id in the database
-                done(null, existingUser); // 'done' (which is the fourth argumnet) we have made the user and we have finished, proceed with the authemtication.
-            } else {
-                // we dont have any record with profile id in the database
+        const existingUser = await User.findOne({ googleId: profile.id });
+        if(existingUser) {
+            // we have a record of the same profile id in the database
+            done(null, existingUser); // 'done' (which is the fourth argumnet) we have made the user and we have finished, proceed with the authemtication.
+        } else {
+            // we dont have any record with profile id in the database
 
-                /**
-                 * @description new new User(...) will create an instance of the user, .save will save the instance or record (googleId: profileId) in mongoDB
-                 */
-                new User({ googleId: profile.id }).save()
-                .then(user => done(null, user)); // .then (user  => ...) will create another instance of the user which is a model instance from the mongoDB
+            /**
+             * @description new new User(...) will create an instance of the user, .save will save the instance or record (googleId: profileId) in mongoDB
+             */
+            const user = await new User({ googleId: profile.id }).save();
+            done(null, user); // .then (user  => ...) will create another instance of the user which is a model instance from the mongoDB
 
-            }
-        })
         }
+    }
     )
 );
